@@ -128,3 +128,43 @@ def std_apx(G, subgraph=None, rev=False):
 					vertices.pop(nbr)
 
 	return cover
+
+def heuristic_apx(G):
+	cover = set()
+
+	deg = {}
+	maxdeg = 0
+
+	for v in G.neighbors.keys():
+		deg[v] = len(G.neighbors[v])
+		maxdeg = max(maxdeg, deg[v])
+
+	revdeg = [None] * (maxdeg + 1)
+	for i in range(maxdeg + 1):
+		revdeg[i] = set()
+
+	for v in deg.keys():
+		revdeg[deg[v]].add(v)
+
+	while deg.keys():
+		for i in range(maxdeg, 0, -1):
+			if revdeg[i]:
+				maxdeg = i
+				break
+
+		u = random.sample(revdeg[maxdeg], 1)[0]
+		revdeg[maxdeg].remove(u)
+		deg.pop(u)
+		cover.add(u)
+		for v in G.neighbors[u]:
+			if v not in deg:
+				continue
+				
+			revdeg[deg[v]].remove(v)
+			deg[v] -= 1
+			if deg[v] == 0:
+				deg.pop(v)
+			else:
+				revdeg[deg[v]].add(v)
+
+	return cover
