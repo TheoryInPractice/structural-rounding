@@ -37,3 +37,17 @@ test_data:
 clean:
 	rm -f generator/generator.out
 	rm -r -f graphs/*
+
+
+CC=g++
+CCFLAGS=-Isr_apx/util -O3
+PYTHON_DIR=/usr/include/python3.8
+
+python: sr_apx/util/util.so
+
+sr_apx/util/util.so: build/util.o sr_apx/util/util_module.cpp
+	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/util/util.so sr_apx/util/util_module.cpp build/util.o
+
+build/util.o: sr_apx/util/util.hpp sr_apx/util/util.cpp
+	mkdir -p build
+	$(CC) $(CCFLAGS) -c -o build/util.o sr_apx/util/util.cpp
