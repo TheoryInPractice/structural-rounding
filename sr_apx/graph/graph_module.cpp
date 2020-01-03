@@ -3,6 +3,7 @@
 
 #include "graph.hpp"
 #include "pyset.hpp"
+#include "pygraph.hpp"
 
 // graph type /////////////////////////////////////////
 
@@ -263,4 +264,12 @@ PyMODINIT_FUNC PyInit_graph() {
 	}
 
     return m;
+}
+
+// cpp api /////////////////////////////////////
+
+PyObject* make_PyGraph(Graph* base) {
+	PyGraph* ret = (PyGraph*) Graph_new(&Graph_type, NULL, NULL);
+	ret->g = base;
+	return (PyObject*) ret;
 }
