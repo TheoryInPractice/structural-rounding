@@ -1,6 +1,7 @@
 
 #include <Python.h>
 #include "setmap.hpp"
+#include "pyset.hpp"
 
 // set type //////////////////////////////
 
@@ -146,7 +147,7 @@ static PyObject* SetIter_iternext(PySetIter* self) {
 
 static PyMethodDef SetIter_methods[] = {
 	{"__length_hint__", (PyCFunction) SetIter_len, METH_NOARGS, "gets remaining elements in sequence"},
-	{},
+	{NULL},
 };
 
 PyTypeObject SetIter_type = {
@@ -229,4 +230,13 @@ PyMODINIT_FUNC PyInit_setmap() {
 	}
 
     return m;
+}
+
+// cpp api //////////////////////////////////////////////
+
+PyObject* make_PySet(Set* base) {
+	PySet* ret = (PySet*) Set_new(&Set_type, NULL, NULL);
+	ret->borrowed = true;
+	ret->s = base;
+	return (PyObject*) ret;
 }

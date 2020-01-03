@@ -40,10 +40,10 @@ clean:
 
 
 CC=g++
-CCFLAGS=-Isr_apx/util -Isr_apx/setmap -O3
+CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -O3
 PYTHON_DIR=/usr/include/python3.8
 
-python: sr_apx/util/util.so sr_apx/setmap/setmap.so
+python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so
 
 sr_apx/util/util.so: build/util.o sr_apx/util/util_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/util/util.so sr_apx/util/util_module.cpp build/util.o
@@ -52,5 +52,12 @@ build/util.o: sr_apx/util/util.hpp sr_apx/util/util.cpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/util.o sr_apx/util/util.cpp
 
-sr_apx/setmap/setmap.so: sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp sr_apx/setmap/setmap_module.cpp build/util.o
+sr_apx/setmap/setmap.so: sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp sr_apx/setmap/setmap_module.cpp sr_apx/setmap/pyset.hpp build/util.o
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/setmap/setmap.so sr_apx/setmap/setmap_module.cpp build/util.o
+
+sr_apx/graph/graph.so: build/graph.o sr_apx/setmap/pyset.hpp sr_apx/setmap/setmap.so sr_apx/graph/graph_module.cpp
+	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/graph/graph.so sr_apx/graph/graph_module.cpp sr_apx/setmap/setmap.so build/graph.o
+
+build/graph.o: sr_apx/graph/graph.hpp sr_apx/graph/graph.cpp
+	mkdir -p build
+	$(CC) $(CCFLAGS) -c -o build/graph.o sr_apx/graph/graph.cpp
