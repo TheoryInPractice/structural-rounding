@@ -234,9 +234,9 @@ PyMODINIT_FUNC PyInit_setmap() {
 
 // cpp api //////////////////////////////////////////////
 
-PyObject* make_PySet(Set* base) {
+PyObject* make_PySet(Set* base, bool b) {
 	PySet* ret = (PySet*) Set_new(&Set_type, NULL, NULL);
-	ret->borrowed = true;
+	ret->borrowed = b;
 	ret->s = base;
 	return (PyObject*) ret;
 }

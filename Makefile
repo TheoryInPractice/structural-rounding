@@ -40,10 +40,10 @@ clean:
 
 
 CC=g++
-CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -O3
+CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -O3
 PYTHON_DIR=/usr/include/python3.8
 
-python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so
+python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so
 
 sr_apx/util/util.so: build/util.o sr_apx/util/util_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/util/util.so sr_apx/util/util_module.cpp build/util.o
@@ -64,3 +64,10 @@ build/graph.o: sr_apx/graph/graph.hpp sr_apx/graph/graph.cpp
 
 sr_apx/graphio/graphio.so: build/util.o build/graph.o sr_apx/graph/pygraph.hpp sr_apx/graph/graph.so sr_apx/graphio/graphio.hpp sr_apx/graphio/graphio.cpp sr_apx/graphio/graphio_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/graphio/graphio.so sr_apx/graphio/graphio_module.cpp sr_apx/graph/graph.so build/graph.o build/util.o sr_apx/graphio/graphio.cpp
+
+sr_apx/vc/apx/vc_apx.so: build/vc_apx.o sr_apx/vc/apx/vc_apx_module.cpp sr_apx/setmap/setmap.so build/graph.o
+	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/vc/apx/vc_apx.so sr_apx/vc/apx/vc_apx_module.cpp build/vc_apx.o sr_apx/setmap/setmap.so build/graph.o
+
+build/vc_apx.o: sr_apx/vc/apx/vc_apx.hpp sr_apx/vc/apx/vc_apx.cpp
+	mkdir -p build
+	$(CC) $(CCFLAGS) -c -o build/vc_apx.o sr_apx/vc/apx/vc_apx.cpp

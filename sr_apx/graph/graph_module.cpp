@@ -7,11 +7,6 @@
 
 // graph type /////////////////////////////////////////
 
-typedef struct {
-	PyObject_HEAD
-	Graph* g;
-} PyGraph;
-
 static void Graph_dealloc(PyGraph* self) {
 	PyObject_GC_UnTrack(self);
 	delete self->g;
@@ -111,7 +106,7 @@ static PyObject* Graph_neighbors(PyGraph* self, PyObject* args) {
 		return NULL;
 	}
 
-	return make_PySet(self->g->neighbors(u));
+	return make_PySet(self->g->neighbors(u), true);
 }
 
 static PyMethodDef Graph_methods[] = {

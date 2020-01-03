@@ -5,6 +5,6 @@
 #include <Python.h>
 #include "setmap.hpp"
 
-PyObject* make_PySet(Set*);
+PyObject* make_PySet(Set*, bool);
 
 #endif
