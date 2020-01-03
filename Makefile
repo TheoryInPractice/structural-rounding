@@ -44,10 +44,10 @@ clean:
 
 
 CC=g++
-CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -O3
+CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -Isr_apx/vc/exact -O3
 PYTHON_DIR=/usr/include/python3.8
 
-python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so
+python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so sr_apx/vc/exact/vc_exact.so
 
 sr_apx/util/util.so: build/util.o sr_apx/util/util_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/util/util.so sr_apx/util/util_module.cpp build/util.o
@@ -78,3 +78,9 @@ build/vc_apx.o: sr_apx/vc/apx/vc_apx.hpp sr_apx/vc/apx/vc_apx.cpp
 
 sr_apx/octset/octset.so: build/graph.o sr_apx/octset/oct_module.cpp sr_apx/octset/octset.cpp sr_apx/octset/octset.hpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/octset/octset.so sr_apx/octset/oct_module.cpp sr_apx/setmap/setmap.so build/graph.o sr_apx/octset/octset.cpp
+
+sr_apx/vc/exact/vc_exact.so: build/vc_exact.o sr_apx/octset/octset.cpp sr_apx/setmap/setmap.so sr_apx/graph/graph.so
+	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/vc/exact/vc_exact.so sr_apx/vc/exact/vc_exact_module.cpp build/vc_exact.o build/graph.o sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/octset/octset.so
+
+build/vc_exact.o: sr_apx/vc/exact/vc_exact.hpp sr_apx/vc/exact/vc_exact.cpp
+	$(CC) $(CCFLAGS) -c -o build/vc_exact.o sr_apx/vc/exact/vc_exact.cpp

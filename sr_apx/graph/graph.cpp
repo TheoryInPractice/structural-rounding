@@ -39,3 +39,19 @@ int Graph::degree(int u) {
 	}
 	return adjlist[u].size();
 }
+
+Graph* Graph::subgraph(Set* vertices) {
+	Graph* subg = new Graph(vertices->size());
+
+	for (Set::Iterator iu = vertices->begin(); iu != vertices->end(); ++iu) {
+		int u = *iu;
+		for (Set::Iterator iv = adjlist[u].begin(); iv != adjlist[u].end(); ++iv) {
+			int v = *iv;
+			if (vertices->contains(v)) {
+				subg->add_edge(u, v);
+			}
+		}
+	}
+
+	return subg;
+}

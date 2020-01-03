@@ -7,7 +7,7 @@
 class Graph {
 public:
 	Map<Set> adjlist;
-	
+
 	Graph() {};
 	Graph(int);
 	void add_edge(int, int);
@@ -18,6 +18,8 @@ public:
 	Map<Set>::Iterator begin();
 	Map<Set>::Iterator end();
 	Set* neighbors(int);
+
+	Graph* subgraph(Set*);
 };
 
 #endif

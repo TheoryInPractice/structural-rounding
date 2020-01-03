@@ -109,6 +109,17 @@ static PyObject* Graph_neighbors(PyGraph* self, PyObject* args) {
 	return make_PySet(self->g->neighbors(u), true);
 }
 
+static PyObject* Graph_subgraph(PyGraph* self, PyObject* args) {
+	PyObject* s;
+	if (!PyArg_ParseTuple(args, "O", &s)) {
+		return NULL;
+	}
+
+	Set* vertices = ((PySet*) s)->s;
+	Graph* subg = self->g->subgraph(vertices);
+	return make_PyGraph(subg);
+}
+
 static PyMethodDef Graph_methods[] = {
 	{"contains", (PyCFunction) Graph_contains, METH_VARARGS, "check if a vertex is in the graph"},
 	{"__contains__", (PyCFunction) Graph_contains, METH_VARARGS, "check if a vertex is in the graph"},
@@ -118,6 +129,7 @@ static PyMethodDef Graph_methods[] = {
 	{"degree", (PyCFunction) Graph_degree, METH_VARARGS, "gets the degree of a vertex"},
 	{"adjacent", (PyCFunction) Graph_adjacent, METH_VARARGS, "gets whether two vertices are connected by an edge"},
 	{"neighbors", (PyCFunction) Graph_neighbors, METH_VARARGS, "gets the set of neighbors"},
+	{"subgraph", (PyCFunction) Graph_subgraph, METH_VARARGS, "creates a subgraph containing the specified vertices"},
 	{NULL},
 };
 
