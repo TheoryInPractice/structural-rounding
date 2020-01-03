@@ -7,6 +7,7 @@ small_graphs:
 	./generator/create_graphs_vc.sh 4000000 graphs/small
 
 small_data:
+	mkdir -p results
 	export PYTHONHASHSEED=0
 	python3 main.py graphs/small/
 
@@ -15,6 +16,7 @@ medium_graphs:
 	./generator/create_graphs_vc.sh 40000000 graphs/medium
 
 medium_data:
+	mkdir -p results
 	export PYTHONHASHSEED=0
 	python3 main.py graphs/medium/
 
@@ -23,6 +25,7 @@ large_graphs:
 	./generator/create_graphs_vc.sh 200000000 graphs/large
 
 large_data:
+	mkdir -p results
 	export PYTHONHASHSEED=0
 	python3 main.py graphs/large/
 
@@ -31,6 +34,7 @@ test_graphs:
 	./generator/create_graphs_vc.sh 100000 graphs/test
 
 test_data:
+	mkdir -p results
 	export PYTHONHASHSEED=0
 	python3 variance.py graphs/test/
 
@@ -40,10 +44,10 @@ clean:
 
 
 CC=g++
-CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -O3
+CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -O3
 PYTHON_DIR=/usr/include/python3.8
 
-python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so
+python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so
 
 sr_apx/util/util.so: build/util.o sr_apx/util/util_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/util/util.so sr_apx/util/util_module.cpp build/util.o
@@ -71,3 +75,6 @@ sr_apx/vc/apx/vc_apx.so: build/vc_apx.o sr_apx/vc/apx/vc_apx_module.cpp sr_apx/s
 build/vc_apx.o: sr_apx/vc/apx/vc_apx.hpp sr_apx/vc/apx/vc_apx.cpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/vc_apx.o sr_apx/vc/apx/vc_apx.cpp
+
+sr_apx/octset/octset.so: build/graph.o sr_apx/octset/oct_module.cpp sr_apx/octset/octset.cpp sr_apx/octset/octset.hpp
+	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/octset/octset.so sr_apx/octset/oct_module.cpp sr_apx/setmap/setmap.so build/graph.o sr_apx/octset/octset.cpp

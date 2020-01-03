@@ -5,12 +5,6 @@
 
 // set type //////////////////////////////
 
-typedef struct {
-	PyObject_HEAD
-	Set* s;
-	bool borrowed;
-} PySet;
-
 static void Set_dealloc(PySet* self) {
 	PyObject_GC_UnTrack(self);
 	if (!self->borrowed) {
