@@ -5,12 +5,14 @@ import sys, os, random
 from time import time
 from csv import DictWriter
 
-from src.graph import Graph, read_edge_list, read_adj_list, read_sparse6
-from src.octset import prescibed_octset, find_octset, verify_bip
+from sr_apx.graph import Graph
+from sr_apx.setmap import Set
+from sr_apx.graphio import read_edge_list, read_sparse6
+from sr_apx.octset import prescribed_octset, find_octset, verify_bip
 
-from src.vc_apx import dfs_apx, std_apx, heuristic_apx
-from src.vc_exact import bip_exact
-from src.vc_lift import structural_rounding_apx, naive_lift, apx_lift, greedy_lift, oct_first_lift, bip_first_lift, recursive_lift, recursive_oct_lift, recursive_bip_lift
+from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx
+from sr_apx.vc.exact import bip_exact
+from sr_apx.vc.lift import naive_lift, greedy_lift
 
 def run_apx(apx, graph, n):
     times = []
@@ -34,7 +36,7 @@ def run_lift(lift, graph, n, octset, partial):
     for i in range(n):
         random.seed(i)
         start = time()
-        cover, breakdown = lift(graph, octset, partial)
+        cover = lift(graph, octset, partial)
         end = time()
         times.append(end - start)
         sols.append(len(cover))
@@ -42,7 +44,7 @@ def run_lift(lift, graph, n, octset, partial):
     avgtime = round(sum(times) / n, 4)
     minsol = min(sols)
     maxsol = max(sols)
-    return avgtime, minsol, maxsol, breakdown
+    return avgtime, minsol, maxsol
 
 def main():
     filepath = sys.argv[1]
@@ -66,11 +68,9 @@ def main():
             start = time()
             graph = read_sparse6("{}{}".format(filepath, filename))
             end = time()
-            print("n: {}".format(len(graph.neighbors)))
-            print("m: {}".format(graph.edges))
+            print("n: {}".format(len(graph)))
             print("time: {}".format(round(end - start, 4)))
-            res["n"] = len(graph.neighbors)
-            res["m"] = graph.edges
+            res["n"] = len(graph)
 
             t, minsol, maxsol = run_apx(heuristic_apx, graph, n)
             print("heuristic apx")
@@ -80,111 +80,61 @@ def main():
             res["heuristic time"] = t
             res["heuristic size"] = minsol
 
-            # t, minsol, maxsol = run_apx(dfs_apx, graph, n)
-            # print("dfs apx")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["dfs time"] = t
-            # res["dfs size"] = minsol
-            #
-            # t, minsol, maxsol = run_apx(std_apx, graph, n)
-            # print("std apx")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # res["std time"] = t
-            # res["std size"] = minsol
-            #
-            # alg = lambda x: std_apx(x, rev=True)
-            # t, minsol, maxsol = run_apx(alg, graph, n)
-            # print("\tmax size: {}".format(maxsol))
-            # res["stdrev time"] = t
-            # res["stdrev size"] = maxsol
+            t, minsol, maxsol = run_apx(dfs_apx, graph, n)
+            print("dfs apx")
+            print("\tavg time: {}".format(t))
+            print("\tmin size: {}".format(minsol))
+            print("\tmax size: {}".format(maxsol))
+            res["dfs time"] = t
+            res["dfs size"] = minsol
 
-            # octset, left, right = prescibed_octset(graph, "{}{}.oct".format(filepath, graphname))
-            # octset, left, right = find_octset(graph)
-            # octset, left, right = verify_bip(graph, set())
-            # print(len(octset))
+            t, minsol, maxsol = run_apx(std_apx, graph, n)
+            print("std apx")
+            print("\tavg time: {}".format(t))
+            print("\tmin size: {}".format(minsol))
+            res["std time"] = t
+            res["std size"] = minsol
 
-            # start = time()
-            # partial = bip_exact(graph.vertex_subgraph(graph.neighbors.keys() - octset))
-            # end = time()
-            #
-            # print("bip solve")
-            # print("\tavg time: {}".format(round(end - start, 4)))
-            #
-            # res["oct size"] = len(octset)
-            # res["partial"] = len(partial)
-            # res["bip time"] = round(end - start, 4)
-            #
-            # t, minsol, maxsol, breakdown = run_lift(naive_lift, graph, n, octset, partial)
-            # print("naive lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["naive time"] = t
-            # res["naive size"] = minsol
-            #
-            # t, minsol, maxsol, breakdown = run_lift(apx_lift, graph, n, octset, partial)
-            # print("apx lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["apx time"] = t
-            # res["apx size"] = minsol
-            #
-            # t, minsol, maxsol, breakdown = run_lift(greedy_lift, graph, n, octset, partial)
-            # print("greedy lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["greedy time"] = t
-            # res["greedy size"] = minsol
-            #
-            # t, minsol, maxsol, breakdown = run_lift(oct_first_lift, graph, n, octset, partial)
-            # print("octfirst lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["octfirst time"] = t
-            # res["octfirst size"] = minsol
-            # res["octfirst break"] = breakdown
-            #
-            # t, minsol, maxsol, breakdown = run_lift(bip_first_lift, graph, n, octset, partial)
-            # print("bipfirst lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["bipfirst time"] = t
-            # res["bipfirst size"] = minsol
-            # res["bipfirst break"] = breakdown
-            #
-            # t, minsol, maxsol, breakdown = run_lift(recursive_lift, graph, n, octset, partial)
-            # print("rec lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["rec time"] = t
-            # res["rec size"] = minsol
-            # res["rec break"] = breakdown
-            #
-            # t, minsol, maxsol, breakdown = run_lift(recursive_oct_lift, graph, n, octset, partial)
-            # print("recoct lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["recoct time"] = t
-            # res["recoct size"] = minsol
-            # res["recoct break"] = breakdown
-            #
-            # t, minsol, maxsol, breakdown = run_lift(recursive_bip_lift, graph, n, octset, partial)
-            # print("recbip lift")
-            # print("\tavg time: {}".format(t))
-            # print("\tmin size: {}".format(minsol))
-            # print("\tmax size: {}".format(maxsol))
-            # res["recbip time"] = t
-            # res["recbip size"] = minsol
-            # res["recbip break"] = breakdown
+            # left, right, octset = prescibed_octset(graph, "{}{}.oct".format(filepath, graphname))
+
+            start = time()
+            left, right, octset = find_octset(graph)
+            # left, right, octset = verify_bip(graph, set())
+
+            bippart = Set()
+            for v in left:
+                bippart.add(v)
+            for v in right:
+                bippart.add(v)
+
+
+            partial = bip_exact(graph.subgraph(bippart))
+            end = time()
+
+            print("bip solve")
+            print("\tavg time: {}".format(round(end - start, 4)))
+
+            print(len(partial))
+
+            res["oct size"] = len(octset)
+            res["partial"] = len(partial)
+            res["bip time"] = round(end - start, 4)
+
+            t, minsol, maxsol = run_lift(naive_lift, graph, n, octset, partial)
+            print("naive lift")
+            print("\tavg time: {}".format(t))
+            print("\tmin size: {}".format(minsol))
+            print("\tmax size: {}".format(maxsol))
+            res["naive time"] = t
+            res["naive size"] = minsol
+
+            t, minsol, maxsol = run_lift(greedy_lift, graph, n, octset, partial)
+            print("greedy lift")
+            print("\tavg time: {}".format(t))
+            print("\tmin size: {}".format(minsol))
+            print("\tmax size: {}".format(maxsol))
+            res["greedy time"] = t
+            res["greedy size"] = minsol
 
             results.writerow(res)
             del graph
