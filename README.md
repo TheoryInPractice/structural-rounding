@@ -1,14 +1,26 @@
-# vc_lifting
 
-All data and results can be recreated using make commands.
-
-make compile: Compiles the generator (written in c++) so that synthetic graphs can be created.
-
-make <--->_graphs: Replacing <---> with small, medium, large, or test will create synthetic graphs with 4 million, 40 million, 200 million, and 100 thousand edges (in expectation respectively).  Note that not all parameter settings we kept in the 40 million and 200 million experiments. Currently, 5 random graphs are created per parameter setting.  This can be changed in generator/create_graphs_vc.sh.  The graphs are placed in the graphs/<---> directory.
-
-make <--->_data: Replace <---> with small, medium, large or test.  Runs experiments on all graphs in the graphs/<---> directory.  For small, medium, and large, a different set of experiments are run from main.py while for test, variance.py is run.
-
-make clean: Deletes the compiled generator and all synthetic graphs.
-
+# Structural Rounding
 
 See example.py if you'd like to write code that makes use of our structural rounding algorithms.
+
+## Generating Synthetic Graphs
+
+Compile the generator by running ```make compile```.
+Then, running ```make small_graphs``` will create 5 graphs per parameter setting (3600 graphs in total) each with 4 million edges in expectation.
+To create smaller graphs, use ```make test_graphs``` which creates graphs with 100 thousand edges in expectation.
+To create larger graphs, use ```make medium_graphs``` (40 million edges) or ```make large_graphs``` (200 million edges).
+Note that the largest graphs can exceed 600MB in size even with a space efficient encoding.
+
+You can run the generator script directly to create different sizes of graphs using ```./generator/create_graphs_vc.sh <edges> <directory>```.
+
+
+## Running Experiments
+
+Once you have created synthetic graphs, you can reproduce our experimental results by running ```make small_data```.
+Use ```make medium_data``` or ```make large_data``` if appropriate.
+You can run our experiments on different sizes of graphs using ```python main.py <directory>```.
+Note that the ```make``` commands additionally disable Python's random hashing feature so that results are consistent between runs.
+
+The variance experiments can also be reproduced using ```make test_data```.
+Do the large amount of repetition, it is not recommended to use graphs with more than 100 thousand edges in the variance tests.
+To run the variance experiments on graphs of a different size, use ```python variance.py <directory>```.
