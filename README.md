@@ -5,10 +5,10 @@ See example.py if you'd like to write code that makes use of our structural roun
 
 
 ## Compiling
-
-To compile, first edit ```PYTHON_DIR``` in the Makefile to match the installation directory of Python on your machine.
+- **Python** To compile, first edit ```PYTHON_DIR``` in the Makefile to match the installation directory of Python on your machine.
 On linux machines, this should be as simple as changing the version number.
 Run ```make python``` to compile the code.
+- **(or) C++** Simply run ```make cpp``` to compile the code.
 
 
 ## Generating Synthetic Graphs
