@@ -90,3 +90,15 @@ sr_apx/vc/lift/vc_lift.so: build/vc_lift.o sr_apx/setmap/setmap.so sr_apx/graph/
 
 build/vc_lift.o: sr_apx/vc/lift/vc_lift.hpp sr_apx/vc/lift/vc_lift.cpp
 	$(CC) $(CCFLAGS) -c -o build/vc_lift.o sr_apx/vc/lift/vc_lift.cpp
+
+
+build/graphio.o: sr_apx/graphio/graphio.hpp sr_apx/graphio/graphio.cpp
+	$(CC) $(CCFLAGS) -c -o build/graphio.o sr_apx/graphio/graphio.cpp
+
+build/main.o: main.cpp
+	$(CC) $(CCFLAGS) -c -o build/main.o main.cpp
+
+main: build/main.o build/graph.o build/graphio.o build/util.o
+	$(CC) $(CCFLAGS) -o main build/graph.o build/util.o build/graphio.o build/main.o
+
+cpp: main

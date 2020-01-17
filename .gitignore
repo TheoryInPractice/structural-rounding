@@ -6,3 +6,5 @@ graphs/
 
 build/
 *.so
+
+main
