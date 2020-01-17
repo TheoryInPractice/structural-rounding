@@ -1,6 +1,7 @@
 
 # Structural Rounding
 
+(Editing branch for main c++ adds.)
 See example.py if you'd like to write code that makes use of our structural rounding algorithms.
 
 
