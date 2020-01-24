@@ -44,7 +44,7 @@ clean:
 
 
 CC=g++
-CCFLAGS=-Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -Isr_apx/vc/exact -Isr_apx/vc/lift -O3
+CCFLAGS=-std=c++11 -Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -Isr_apx/vc/exact -Isr_apx/vc/lift -O3
 PYTHON_DIR=/usr/include/python3.8
 
 python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so sr_apx/vc/exact/vc_exact.so sr_apx/vc/lift/vc_lift.so
