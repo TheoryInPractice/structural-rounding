@@ -83,19 +83,23 @@ sr_apx/vc/exact/vc_exact.so: build/vc_exact.o sr_apx/octset/octset.cpp sr_apx/se
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/vc/exact/vc_exact.so sr_apx/vc/exact/vc_exact_module.cpp build/vc_exact.o build/graph.o sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/octset/octset.so
 
 build/vc_exact.o: sr_apx/vc/exact/vc_exact.hpp sr_apx/vc/exact/vc_exact.cpp
+	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/vc_exact.o sr_apx/vc/exact/vc_exact.cpp
 
 sr_apx/vc/lift/vc_lift.so: build/vc_lift.o sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/vc/lift/vc_lift_module.cpp
 	$(CC) $(CCFLAGS) -shared -fPIC -I$(PYTHON_DIR) -o sr_apx/vc/lift/vc_lift.so sr_apx/vc/lift/vc_lift_module.cpp sr_apx/graph/graph.so sr_apx/setmap/setmap.so build/graph.o build/vc_lift.o
 
 build/vc_lift.o: sr_apx/vc/lift/vc_lift.hpp sr_apx/vc/lift/vc_lift.cpp
+	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/vc_lift.o sr_apx/vc/lift/vc_lift.cpp
 
 
 build/graphio.o: sr_apx/graphio/graphio.hpp sr_apx/graphio/graphio.cpp
+	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/graphio.o sr_apx/graphio/graphio.cpp
 
 build/main.o: main.cpp
+	mkdir -p build
 	$(CC) $(CCFLAGS) -c -o build/main.o main.cpp
 
 main: build/main.o build/graph.o build/graphio.o build/util.o
