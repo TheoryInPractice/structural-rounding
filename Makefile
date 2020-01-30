@@ -72,8 +72,11 @@ sr_apx/vc/lift/vc_lift.so: sr_apx.so sr_apx/setmap/setmap.so sr_apx/graph/graph.
 
 python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so sr_apx/vc/exact/vc_exact.so sr_apx/vc/lift/vc_lift.so
 
-generator: generator/OCTgenerator.c
+generator/generator.out: generator/OCTgenerator.c
 	gcc -O3 -o generator/generator.out generator/OCTgenerator.c -lm
+
+generator: generator/generator.out
+
 
 clean:
 	rm -f sr_apx.so
@@ -87,3 +90,4 @@ clean:
 	rm -f sr_apx/octset/octset.so
 	rm -f sr_apx/vc/exact/vc_exact.so
 	rm -f sr_apx/vc/lift/vc_lift.so
+	rm -f generator/generator.out
