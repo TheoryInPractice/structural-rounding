@@ -1,6 +1,6 @@
 
 CC=g++
-CCFLAGS=-O3
+CCFLAGS=-O3 -std=c++17
 
 PYINCLUDE=$(shell python3-config --includes)
 PYFLAGS=$(shell python3-config --ldflags)
@@ -71,6 +71,9 @@ sr_apx/vc/lift/vc_lift.so: sr_apx.so sr_apx/setmap/setmap.so sr_apx/graph/graph.
 	$(CC) $(CCFLAGS) -shared -fPIC $(INCLUDES) $(PYINCLUDE) -o sr_apx/vc/lift/vc_lift.so sr_apx/vc/lift/vc_lift_module.cpp sr_apx/graph/graph.so sr_apx/setmap/setmap.so ./sr_apx.so $(PYFLAGS)
 
 python: sr_apx/util/util.so sr_apx/setmap/setmap.so sr_apx/graph/graph.so sr_apx/graphio/graphio.so sr_apx/vc/apx/vc_apx.so sr_apx/octset/octset.so sr_apx/vc/exact/vc_exact.so sr_apx/vc/lift/vc_lift.so
+
+generator: generator/OCTgenerator.c
+	gcc -O3 -o generator/generator.out generator/OCTgenerator.c -lm
 
 clean:
 	rm -f sr_apx.so
