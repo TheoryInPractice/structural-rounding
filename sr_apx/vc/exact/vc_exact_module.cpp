@@ -29,6 +29,6 @@ static struct PyModuleDef vc_exact_module = {
 	vc_exact_methods
 };
 
-PyMODINIT_FUNC PyInit_vc_exact() {
+PyMODINIT_FUNC PyInit_lib_vc_exact() {
 	return PyModule_Create(&vc_exact_module);
 }

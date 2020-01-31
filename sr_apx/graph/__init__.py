@@ -1,2 +1,2 @@
 
-from .graph import Graph
+from .lib_graph import Graph

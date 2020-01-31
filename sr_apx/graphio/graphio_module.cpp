@@ -46,6 +46,6 @@ static struct PyModuleDef graphio_module = {
 	graphio_methods
 };
 
-PyMODINIT_FUNC PyInit_graphio() {
+PyMODINIT_FUNC PyInit_lib_graphio() {
 	return PyModule_Create(&graphio_module);
 }

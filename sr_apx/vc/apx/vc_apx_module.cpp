@@ -55,6 +55,6 @@ static struct PyModuleDef vc_apx_module = {
 	vc_apx_methods
 };
 
-PyMODINIT_FUNC PyInit_vc_apx() {
+PyMODINIT_FUNC PyInit_lib_vc_apx() {
 	return PyModule_Create(&vc_apx_module);
 }

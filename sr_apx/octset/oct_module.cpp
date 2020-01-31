@@ -73,6 +73,6 @@ static struct PyModuleDef octset_module = {
 	octset_methods
 };
 
-PyMODINIT_FUNC PyInit_octset() {
+PyMODINIT_FUNC PyInit_lib_octset() {
 	return PyModule_Create(&octset_module);
 }

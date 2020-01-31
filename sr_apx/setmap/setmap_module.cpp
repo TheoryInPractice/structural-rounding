@@ -198,7 +198,7 @@ static PyModuleDef setmap_module = {
 	.m_size = -1,
 };
 
-PyMODINIT_FUNC PyInit_setmap() {
+PyMODINIT_FUNC PyInit_lib_setmap() {
 	PyObject* m;
 	if (PyType_Ready(&Set_type) < 0 || PyType_Ready(&SetIter_type) < 0) {
 		return NULL;

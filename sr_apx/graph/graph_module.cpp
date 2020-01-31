@@ -244,7 +244,7 @@ static PyModuleDef graph_module = {
 	.m_size = -1,
 };
 
-PyMODINIT_FUNC PyInit_graph() {
+PyMODINIT_FUNC PyInit_lib_graph() {
 	PyObject* m;
 	if (PyType_Ready(&Graph_type) < 0 || PyType_Ready(&GraphIter_type) < 0) {
 		return NULL;
