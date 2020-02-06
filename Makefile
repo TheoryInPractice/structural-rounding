@@ -2,7 +2,7 @@
 CC=g++
 CCFLAGS=-O3 -std=c++11 -fPIC
 
-INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/graphio/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/octset/
+INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/octset/
 
 PYINCLUDE=$(shell python3-config --includes)
 PYFLAGS=$(shell python3-config --ldflags) -L. -L./sr_apx/setmap -L./sr_apx/graph -Wl,-rpath,. -Wl,-rpath,./sr_apx/setmap -Wl,-rpath,./sr_apx/graph
@@ -16,10 +16,6 @@ build/util.o: sr_apx/util/util.cpp sr_apx/util/util.hpp
 build/graph.o: sr_apx/graph/graph.cpp sr_apx/graph/graph.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/graph.o sr_apx/graph/graph.cpp
-
-build/graphio.o: sr_apx/graphio/graphio.cpp sr_apx/graphio/graphio.hpp
-	mkdir -p build
-	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/graphio.o sr_apx/graphio/graphio.cpp
 
 build/vc_apx.o: sr_apx/vc/apx/vc_apx.cpp sr_apx/vc/apx/vc_apx.hpp
 	mkdir -p build
@@ -37,8 +33,8 @@ build/octset.o: sr_apx/octset/octset.cpp sr_apx/octset/octset.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/octset.o sr_apx/octset/octset.cpp
 
-lib_sr_apx.so: build/util.o build/graph.o build/graphio.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
-	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/graphio.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o
+lib_sr_apx.so: build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
+	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o
 
 build/main.o: main.cpp
 	mkdir -p build
@@ -68,12 +64,6 @@ build/graph_module.o: sr_apx/graph/graph_module.cpp sr_apx/graph/pygraph.hpp
 sr_apx/graph/lib_graph.so: lib_sr_apx.so sr_apx/setmap/lib_setmap.so build/graph_module.o
 	$(CC) -shared -o sr_apx/graph/lib_graph.so build/graph_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
-build/graphio_module.o: sr_apx/graphio/graphio_module.cpp
-	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/graphio_module.o sr_apx/graphio/graphio_module.cpp
-
-sr_apx/graphio/lib_graphio.so: lib_sr_apx.so sr_apx/graph/lib_graph.so build/graphio_module.o
-	$(CC) -shared -o sr_apx/graphio/lib_graphio.so build/graphio_module.o $(PYFLAGS) -l_sr_apx -l_graph
-
 build/vc_apx_module.o: sr_apx/vc/apx/vc_apx_module.cpp
 	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/vc_apx_module.o sr_apx/vc/apx/vc_apx_module.cpp
 
@@ -98,7 +88,7 @@ build/vc_lift_module.o: sr_apx/vc/lift/vc_lift_module.cpp
 sr_apx/vc/lift/lib_vc_lift.so: lib_sr_apx.so sr_apx/setmap/lib_setmap.so build/vc_lift_module.o
 	$(CC) -shared -o sr_apx/vc/lift/lib_vc_lift.so build/vc_lift_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
-python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/graphio/lib_graphio.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/octset/lib_octset.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so
+python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/octset/lib_octset.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so
 
 # generator ##########################################################################################
 
@@ -117,7 +107,6 @@ clean:
 	rm -f sr_apx/util/lib_util.so
 	rm -f sr_apx/setmap/lib_setmap.so
 	rm -f sr_apx/graph/lib_graph.so
-	rm -f sr_apx/graphio/lib_graphio.so
 	rm -f sr_apx/vc/apx/lib_vc_apx.so
 	rm -f sr_apx/octset/lib_octset.so
 	rm -f sr_apx/vc/exact/lib_vc_exact.so

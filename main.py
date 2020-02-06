@@ -5,9 +5,8 @@ import sys, os, random
 from time import time
 from csv import DictWriter
 
-from sr_apx.graph import Graph
+from sr_apx.graph import Graph, read_edge_list, read_sparse6
 from sr_apx.setmap import Set
-from sr_apx.graphio import read_edge_list, read_sparse6
 from sr_apx.octset import prescribed_octset, find_octset, verify_bip
 
 from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx

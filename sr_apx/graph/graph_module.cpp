@@ -237,11 +237,46 @@ static PyTypeObject Graph_type = {
 	.tp_free = PyObject_GC_Del,
 };
 
+static PyObject* graph_read_sparse6(PyObject* self, PyObject* args) {
+	PyObject* bytes;
+	if (!PyArg_ParseTuple(args, "O&", PyUnicode_FSConverter, &bytes)) {
+		return NULL;
+	}
+
+	char* s;
+	Py_ssize_t len;
+	PyBytes_AsStringAndSize(bytes, &s, &len);
+	PyObject* g = make_PyGraph(read_sparse6(s));
+	Py_DECREF(bytes);
+	return g;
+}
+
+static PyObject* graph_read_edge_list(PyObject* self, PyObject* args) {
+	PyObject* bytes;
+	if (!PyArg_ParseTuple(args, "O&", PyUnicode_FSConverter, &bytes)) {
+		return NULL;
+	}
+
+	char* s;
+	Py_ssize_t len;
+	PyBytes_AsStringAndSize(bytes, &s, &len);
+	PyObject* g = make_PyGraph(read_edge_list(s));
+	Py_DECREF(bytes);
+	return g;
+}
+
+static PyMethodDef graph_module_methods[] = {
+	{"read_sparse6", graph_read_sparse6, METH_VARARGS, "reads a graph from file formatted as sparse6"},
+	{"read_edge_list", graph_read_edge_list, METH_VARARGS, "reads a graph from file formatted as an edge list"},
+	{NULL},
+};
+
 static PyModuleDef graph_module = {
 	PyModuleDef_HEAD_INIT,
 	.m_name = "graph",
 	.m_doc = "module for graphs",
 	.m_size = -1,
+	graph_module_methods,
 };
 
 PyMODINIT_FUNC PyInit_lib_graph() {
