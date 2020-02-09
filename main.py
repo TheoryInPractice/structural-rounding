@@ -49,6 +49,10 @@ def main():
     filepath = sys.argv[1]
     n = 1
 
+    results_dir = os.path.join(os.getcwd(),"results")
+    if not os.path.exists(results_dir):
+        os.mkdir(results_dir)
+
     with open("results/results.csv", "w") as f:
         header = ["name","n","m","dfs time","dfs size","heuristic time","heuristic size","std time","std size","stdrev time","stdrev size","oct size","partial","bip time","naive time","naive size","apx time","apx size","greedy time","greedy size","octfirst time","octfirst size","octfirst break","bipfirst time","bipfirst size","bipfirst break","rec time","rec size","rec break","recoct time","recoct size","recoct break","recbip time","recbip size","recbip break"]
         results = DictWriter(f, header)
