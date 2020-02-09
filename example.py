@@ -6,9 +6,8 @@ An example script that uses structual rounding to solve vertex cover.
 import sys
 from time import time
 
-from sr_apx.graph import Graph
+from sr_apx.graph import Graph, read_edge_list, read_sparse6
 from sr_apx.setmap import Set
-from sr_apx.graphio import read_edge_list, read_sparse6
 from sr_apx.octset import find_octset
 
 from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx

@@ -36,6 +36,6 @@ static struct PyModuleDef util_module = {
 	util_methods
 };
 
-PyMODINIT_FUNC PyInit_util(void) {
+PyMODINIT_FUNC PyInit_lib_util(void) {
 	return PyModule_Create(&util_module);
 }

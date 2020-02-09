@@ -1,6 +1,5 @@
 
 #include "graph.hpp"
-#include "graphio.hpp"
 #include "setmap.hpp"
 
 #include <cstdio>

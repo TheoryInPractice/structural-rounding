@@ -3,6 +3,8 @@
 edges=$1
 dir=$2
 
+mkdir -p $dir
+
 for balance in 1 2 10 100
 do
 	for octsize in .01 .05 .1 .25 .4

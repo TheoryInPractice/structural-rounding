@@ -22,4 +22,7 @@ public:
 	Graph* subgraph(Set*);
 };
 
+Graph* read_sparse6(const char*);
+Graph* read_edge_list(const char*);
+
 #endif

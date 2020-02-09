@@ -51,6 +51,6 @@ static struct PyModuleDef vc_lift_module = {
 	vc_lift_methods
 };
 
-PyMODINIT_FUNC PyInit_vc_lift() {
+PyMODINIT_FUNC PyInit_lib_vc_lift() {
 	return PyModule_Create(&vc_lift_module);
 }

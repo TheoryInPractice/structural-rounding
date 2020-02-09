@@ -134,7 +134,7 @@ Set* std_apx(Graph* g) {
 		cover->insert(u);
 		remove_vertex(g, deg, revdeg, u);
 
-		revdeg[deg[v] - 1].erase(v);
+		revdeg[deg[v]].erase(v);
 		cover->insert(v);
 		remove_vertex(g, deg, revdeg, v);
 	}

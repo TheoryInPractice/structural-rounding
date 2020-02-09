@@ -1,2 +1,2 @@
 
-from .vc_exact import bip_exact
+from .lib_vc_exact import bip_exact

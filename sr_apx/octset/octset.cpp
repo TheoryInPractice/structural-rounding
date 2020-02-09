@@ -96,7 +96,7 @@ OctDecomp* prescribed_octset(Graph* graph, const char* filename) {
 	return ret;
 }
 
-void remove_vertex(Graph* g, Map<int>& deg, Map<Set>& revdeg, int u) {
+void remove_vertex_oct(Graph* g, Map<int>& deg, Map<Set>& revdeg, int u) {
 	for (auto nbr = g->neighbors(u)->begin(); nbr != g->neighbors(u)->end(); ++nbr) {
 		if (!deg.contains(*nbr)) {
 			continue;
@@ -147,7 +147,7 @@ Set* maximal_indset(Graph* graph, Set* available) {
 				continue;
 			}
 
-			remove_vertex(graph, deg, revdeg, v);
+			remove_vertex_oct(graph, deg, revdeg, v);
 		}
 
 		revdeg[0].erase(u);
