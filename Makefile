@@ -36,15 +36,9 @@ build/octset.o: sr_apx/octset/octset.cpp sr_apx/octset/octset.hpp
 lib_sr_apx.so: build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
 	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o
 
-<<<<<<< HEAD
-CC=g++
-CCFLAGS=-std=c++11 -Isr_apx/util -Isr_apx/setmap -Isr_apx/graph -Isr_apx/graphio -Isr_apx/vc/apx -Isr_apx/octset -Isr_apx/vc/exact -Isr_apx/vc/lift -O3
-PYTHON_DIR=/usr/include/python3.8
-=======
 build/main.o: main.cpp
 	mkdir -p build
 	$(CC) -O3 -std=c++11 -c $(INCLUDES) -o build/main.o main.cpp
->>>>>>> upstream/master
 
 cpp: build/main.o lib_sr_apx.so
 	$(CC) -o main -L. -Wl,-rpath,. build/main.o -l_sr_apx
