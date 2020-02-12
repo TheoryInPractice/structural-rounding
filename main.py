@@ -47,6 +47,8 @@ def run_lift(lift, graph, n, octset, partial):
 
 def main():
     filepath = sys.argv[1]
+    if (filepath[len(filepath)-1] != '/'):
+        filepath += "/";
     n = 1
 
     results_dir = os.path.join(os.getcwd(),"results")
