@@ -29,12 +29,16 @@ build/vc_lift.o: sr_apx/vc/lift/vc_lift.cpp sr_apx/vc/lift/vc_lift.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/vc_lift.o sr_apx/vc/lift/vc_lift.cpp
 
+build/vc_kernel.o: sr_apx/vc/kernel/lp_kernel.cpp sr_apx/vc/kernel/lp_kernel.hpp
+	mkdir -p build
+	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/vc_kernel.o sr_apx/vc/kernel/lp_kernel.cpp
+
 build/octset.o: sr_apx/octset/octset.cpp sr_apx/octset/octset.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/octset.o sr_apx/octset/octset.cpp
 
-lib_sr_apx.so: build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
-	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/octset.o
+lib_sr_apx.so: build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/vc_kernel.o build/octset.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
+	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/vc_kernel.o build/octset.o
 
 build/main.o: main.cpp
 	mkdir -p build
