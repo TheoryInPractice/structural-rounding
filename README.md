@@ -13,13 +13,13 @@ Run ```make python``` to compile the code.
 
 ## Generating Synthetic Graphs
 
-Compile the generator by running ```make compile```.
-Then, running ```make small_graphs``` will create 5 graphs per parameter setting (3600 graphs in total) each with 4 million edges in expectation.
-To create smaller graphs, use ```make test_graphs``` which creates graphs with 100 thousand edges in expectation.
-To create larger graphs, use ```make medium_graphs``` (40 million edges) or ```make large_graphs``` (200 million edges).
+Compile the generator by running ```make generator```.
+Then, running ```./create_graphs.sh small``` will create 5 graphs per parameter setting (3600 graphs in total) each with 4 million edges in expectation.
+To create smaller graphs, use ```./create_graphs.sh test``` which creates graphs with 100 thousand edges in expectation.
+To create larger graphs, use ```./create_graphs.sh medium``` (40 million edges) or ```./create_graphs.sh large``` (200 million edges).
 Note that the largest graphs can exceed 600MB in size even with a space efficient encoding.
 
-You can run the generator script directly to create different sizes of graphs using ```./generator/create_graphs_vc.sh <edges> <directory>```.
+You can also create different sizes of graphs using ```./custom_create_graphs.sh <edges> <directory>```.
 
 
 ## Running Experiments
