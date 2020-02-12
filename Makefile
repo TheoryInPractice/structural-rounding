@@ -95,7 +95,7 @@ python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_gra
 generator: generator/generator.out
 
 generator/generator.out: generator/OCTgenerator.c
-	gcc -O3 -std=c11 -o generator/generator.out generator/OCTgenerator.c -lm
+	gcc -O3 -std=gnu11 -o generator/generator.out generator/OCTgenerator.c -lm
 
 # remove compiled files ###############################################################################
 
