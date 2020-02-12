@@ -47,6 +47,9 @@ def run_lift(lift, graph, n, octset, partial):
 
 def main():
     filepath = sys.argv[1]
+    if (filepath[len(filepath)-1] != '/'):
+        print(filepath + " is not a valid filename or directory")
+        return -1;
     n = 1
 
     results_dir = os.path.join(os.getcwd(),"results")
