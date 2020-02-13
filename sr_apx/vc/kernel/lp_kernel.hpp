@@ -7,4 +7,7 @@
 
 Set* lp_kernel(Graph*);
 
+// not sure if this is the best way to access this fucntion from vc_exact.cpp
+extern Map<int>* maximum_matching(Graph*, Set*, Set*);
+
 #endif
