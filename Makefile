@@ -2,7 +2,7 @@
 CC=g++
 CCFLAGS=-O3 -std=c++11 -fPIC
 
-INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/octset/
+INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/vc/kernel/ -Isr_apx/octset/
 
 PYINCLUDE=$(shell python3-config --includes)
 PYFLAGS=$(shell python3-config --ldflags) -L. -L./sr_apx/setmap -L./sr_apx/graph -Wl,-rpath,. -Wl,-rpath,./sr_apx/setmap -Wl,-rpath,./sr_apx/graph
