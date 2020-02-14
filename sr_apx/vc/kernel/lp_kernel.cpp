@@ -23,38 +23,42 @@ Set* lp_kernel(Graph* g) {
     Map<int> weights;
     Map<int>* matching = maximum_matching(h, left, right);
 
-    Set* kernel = new Set();
-
     for (auto im = matching->begin(); im != matching->end(); ++im) {
-        int key = *im > n - 1 ? *im - n : *im;
-        int value = matching->at(key) > n - 1 ? matching->at(key) - n : matching->at(key);
+        int mk = *im;
+        int mv = matching->at(mk);
 
-        if (!weights.contains(key)) {
-            weights[key] = 1;
+        int u = mk >= n ? mk - n : mk;
+        int v = mv >= n ? mv - n : mv;
+
+        // could be weights[u] = weights.contains(u) ? weights[u] + 1 : 1;
+        if (!weights.contains(u)) {
+            weights[u] = 1;
         }
         else {
-            weights[key]++;
+            weights[u]++;
         }
 
-        if (!weights.contains(value)) {
-            weights[value] = 1;
+        if (!weights.contains(v)) {
+            weights[v] = 1;
         }
         else {
-            weights[value]++;
+            weights[v]++;
         }
     }
     
+    Set* kernel = new Set();
+
     for (auto iw = weights.begin(); iw != weights.end(); ++iw) {
         int w = *iw;
 
-        // This assumes (u, v) in matching -> (v, u) not in matching
-        // otherwise, this should be modified to weights[w] == 2
-        if (weights[w] == 1) {
+        // (u, v) in matching implies (v, u) in matching,
+        //  so a given matched pair will be counted twice;
+        // weights[w] \in {0, 2, 4}
+        if (weights[w] == 2) {
             kernel->insert(w);
         }
     }
 
     // delete h, left, right, matching?
-
     return kernel;
 }
