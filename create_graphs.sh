@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -f generator/generator.out ]; then
+    make generator
+fi
+
 if [ "$1" = "small" ]; then
   mkdir -p graphs/small
   ./generator/create_graphs_vc.sh 4000000 graphs/small
@@ -15,4 +19,3 @@ elif [ "$1" = "test" ]; then
 else
   echo "Provide 'small', 'medium', or 'large' as an argument or use 'create_graphs_custom <edges> <directory>'"
 fi
-
