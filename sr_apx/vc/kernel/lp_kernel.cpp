@@ -30,20 +30,8 @@ Set* lp_kernel(Graph* g) {
         int u = mk >= n ? mk - n : mk;
         int v = mv >= n ? mv - n : mv;
 
-        // could be weights[u] = weights.contains(u) ? weights[u] + 1 : 1;
-        if (!weights.contains(u)) {
-            weights[u] = 1;
-        }
-        else {
-            weights[u]++;
-        }
-
-        if (!weights.contains(v)) {
-            weights[v] = 1;
-        }
-        else {
-            weights[v]++;
-        }
+        weights[u] = weights.contains(u) ? weights[u] + 1 : 1;
+        weights[v] = weights.contains(v) ? weights[v] + 1 : 1;
     }
     
     Set* kernel = new Set();

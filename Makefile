@@ -92,7 +92,13 @@ build/vc_lift_module.o: sr_apx/vc/lift/vc_lift_module.cpp
 sr_apx/vc/lift/lib_vc_lift.so: lib_sr_apx.so sr_apx/setmap/lib_setmap.so build/vc_lift_module.o
 	$(CC) -shared -o sr_apx/vc/lift/lib_vc_lift.so build/vc_lift_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
-python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/octset/lib_octset.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so
+build/lp_kernel_module.o: sr_apx/vc/kernel/lp_kernel_module.cpp
+	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/lp_kernel_module.o sr_apx/vc/kernel/lp_kernel_module.cpp
+
+sr_apx/vc/kernel/lib_lp_kernel.so: lib_sr_apx.so sr_apx/setmap/lib_setmap.so build/lp_kernel_module.o
+	$(CC) -shared -o sr_apx/vc/kernel/lib_lp_kernel.so build/lp_kernel_module.o $(PYFLAGS) -l_sr_apx -l_setmap
+
+python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/octset/lib_octset.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so sr_apx/vc/kernel/lib_lp_kernel.so
 
 # generator ##########################################################################################
 
