@@ -106,7 +106,7 @@ Set* bip_exact(Graph* graph) {
 
 	Set* left = od[1];
 	Set* right = od[2];
-	delte od;
+	delete od;
 
 	Map<int>* match = maximum_matching(graph, left, right);
 
