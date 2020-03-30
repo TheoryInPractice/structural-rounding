@@ -1,6 +1,6 @@
 
 #include "vc_exact.hpp"
-#include "octset.hpp"
+#include "bipartite.hpp"
 
 #include <cstdio>
 #include <vector>
@@ -96,16 +96,16 @@ Map<int>* maximum_matching(Graph* graph, Set* left, Set* right) {
 
 Set* bip_exact(Graph* graph) {
 	Set* empty = new Set();
-	OctDecomp* od = verify_bip(graph, empty);
+	Set** od = verify_bipartite(graph, empty);
 	delete empty;
 
-	if (od->octset->size() > 0) {
+	if (od[0]->size() > 0) {
 		printf("%s\n", "not a bipartite graph");
 		return NULL;
 	}
 
-	Set* left = od->left;
-	Set* right = od->right;
+	Set* left = od[1];
+	Set* right = od[2];
 
 	Map<int>* match = maximum_matching(graph, left, right);
 

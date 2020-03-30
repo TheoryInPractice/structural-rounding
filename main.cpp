@@ -7,7 +7,7 @@
 #include "time.h"
 
 #include "graph.hpp"
-#include "octset.hpp"
+#include "bipartite.hpp"
 #include "setmap.hpp"
 
 #include "vc_apx.hpp"
@@ -120,14 +120,15 @@ int main(int argc, char* argv[]) {
 		printf("\tmin size: %d\n", minsol);
 
 		start = clock();
-		OctDecomp* oct = find_octset(graph);
+		Set* oct = vertex_delete(graph);
+		Set** od = verify_bipartite(graph, oct);
 
 		Set* bippart = new Set();
-		for (Set::Iterator left_it = oct->left->begin(); left_it != oct->left->end(); left_it++) {
+		for (Set::Iterator left_it = od[1]->begin(); left_it != od[1]->end(); left_it++) {
 			int left = *left_it;
 			bippart->insert(left);
 		}
-		for (Set::Iterator right_it = oct->right->begin(); right_it != oct->right->end(); right_it++) {
+		for (Set::Iterator right_it = od[2]->begin(); right_it != od[2]->end(); right_it++) {
 			int right = *right_it;
 			bippart->insert(right);
 		}
@@ -140,13 +141,13 @@ int main(int argc, char* argv[]) {
 
 		printf("%d\n", partial->size());
 
-		t = run_lift(naive_lift, graph, n, oct->octset, partial, minsol, maxsol);
+		t = run_lift(naive_lift, graph, n, oct, partial, minsol, maxsol);
 		printf("naive lift\n");
 		printf("\tavg time: %.4f\n", t/1000000);
 		printf("\tmin size: %d\n", minsol);
 		printf("\tmax size: %d\n", maxsol);
 
-		t = run_lift(greedy_lift, graph, n, oct->octset, partial, minsol, maxsol);
+		t = run_lift(greedy_lift, graph, n, oct, partial, minsol, maxsol);
 		printf("greedy lift\n");
 		printf("\tavg time: %.4f\n", t/1000000);
 		printf("\tmin size: %d\n", minsol);

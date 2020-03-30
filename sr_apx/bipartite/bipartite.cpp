@@ -33,14 +33,14 @@ Set** verify_bipartite(Graph* graph, Set* os) {
 		visited.insert(*it);
 	}
 
-	Set::Iterator git = graph->begin();
+	auto git = graph->begin();
 
 	std::deque<int> queue;
 	int current;
 
 	while (visited.size() < graph->size() || !queue.empty()) {
 		if (queue.empty()) {
-			while (visited.contains(*giter)) {
+			while (visited.contains(*git)) {
 				++git;
 			}
 
@@ -86,18 +86,6 @@ Set** verify_bipartite(Graph* graph, Set* os) {
 	ret[1] = left;
 	ret[2] = right;
 	return ret;
-}
-
-Set* vertex_delete(Graph* graph) {
-	Set* octset = new Set();
-	for (auto it = graph->begin(); it != graph->end(); ++it) {
-		octset->insert(*it);
-	}
-
-	remove_indset(graph, octset);
-	remove_indset(graph, octset);
-
-	return octset;
 }
 
 void remove_indset(Graph* graph, Set* available) {
@@ -155,4 +143,16 @@ void remove_indset(Graph* graph, Set* available) {
 			}
 		}
 	}
+}
+
+Set* vertex_delete(Graph* graph) {
+	Set* octset = new Set();
+	for (auto it = graph->begin(); it != graph->end(); ++it) {
+		octset->insert(*it);
+	}
+
+	remove_indset(graph, octset);
+	remove_indset(graph, octset);
+
+	return octset;
 }
