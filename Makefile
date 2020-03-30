@@ -70,11 +70,11 @@ build/vc_apx_module.o: sr_apx/vc/apx/vc_apx_module.cpp
 sr_apx/vc/apx/lib_vc_apx.so: lib_sr_apx.so build/vc_apx_module.o sr_apx/setmap/lib_setmap.so
 	$(CC) -shared -o sr_apx/vc/apx/lib_vc_apx.so build/vc_apx_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
-build/oct_module.o: sr_apx/octset/oct_module.cpp
-	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/oct_module.o sr_apx/octset/oct_module.cpp
+build/bip_module.o: sr_apx/bipartite/bip_module.cpp
+	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/bip_module.o sr_apx/bipartite/bip_module.cpp
 
-sr_apx/octset/lib_octset.so: lib_sr_apx.so build/oct_module.o sr_apx/setmap/lib_setmap.so
-	$(CC) -shared -o sr_apx/octset/lib_octset.so build/oct_module.o $(PYFLAGS) -l_sr_apx -l_setmap
+sr_apx/bipartite/lib_bipartite.so: lib_sr_apx.so build/bip_module.o sr_apx/setmap/lib_setmap.so
+	$(CC) -shared -o sr_apx/bipartite/lib_bipartite.so build/bip_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
 build/vc_exact_module.o: sr_apx/vc/exact/vc_exact_module.cpp
 	$(CC) $(CCFLAGS) -c $(INCLUDES) $(PYINCLUDE) -o build/vc_exact_module.o sr_apx/vc/exact/vc_exact_module.cpp
@@ -88,7 +88,7 @@ build/vc_lift_module.o: sr_apx/vc/lift/vc_lift_module.cpp
 sr_apx/vc/lift/lib_vc_lift.so: lib_sr_apx.so sr_apx/setmap/lib_setmap.so build/vc_lift_module.o
 	$(CC) -shared -o sr_apx/vc/lift/lib_vc_lift.so build/vc_lift_module.o $(PYFLAGS) -l_sr_apx -l_setmap
 
-python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/octset/lib_octset.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so
+python: sr_apx/util/lib_util.so sr_apx/setmap/lib_setmap.so sr_apx/graph/lib_graph.so sr_apx/vc/apx/lib_vc_apx.so sr_apx/bipartite/lib_bipartite.so sr_apx/vc/exact/lib_vc_exact.so sr_apx/vc/lift/lib_vc_lift.so
 
 # generator ##########################################################################################
 
@@ -108,6 +108,6 @@ clean:
 	rm -f sr_apx/setmap/lib_setmap.so
 	rm -f sr_apx/graph/lib_graph.so
 	rm -f sr_apx/vc/apx/lib_vc_apx.so
-	rm -f sr_apx/octset/lib_octset.so
+	rm -f sr_apx/bipartite/lib_bipartite.so
 	rm -f sr_apx/vc/exact/lib_vc_exact.so
 	rm -f sr_apx/vc/lift/lib_vc_lift.so

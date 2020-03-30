@@ -49,7 +49,7 @@ static PyObject* bipartite_vertexdelete(PyObject* self, PyObject* args) {
 
 	PyGraph* graph = (PyGraph*) g;
 
-	OctDecomp* oct = vertex_delete(graph->g);
+	Set* oct = vertex_delete(graph->g);
 	PyObject* o = make_PySet(oct, false);
 	return o;
 }

@@ -7,7 +7,7 @@ from csv import DictWriter
 
 from sr_apx.graph import Graph, read_edge_list, read_sparse6
 from sr_apx.setmap import Set
-from sr_apx.octset import prescribed_octset, find_octset, verify_bip
+from sr_apx.bipartite import prescribed_octset, vertex_delete, verify_bipartite
 
 from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx
 from sr_apx.vc.exact import bip_exact
@@ -103,8 +103,8 @@ def main():
             # left, right, octset = prescibed_octset(graph, "{}{}.oct".format(filepath, graphname))
 
             start = time()
-            left, right, octset = find_octset(graph)
-            # left, right, octset = verify_bip(graph, set())
+            octset = vertex_delete(graph)
+            _, left, right = verify_bipartite(graph, octset)
 
             bippart = Set()
             for v in left:
