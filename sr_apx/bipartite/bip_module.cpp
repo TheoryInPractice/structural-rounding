@@ -19,6 +19,7 @@ static PyObject* bipartite_verifybip(PyObject* self, PyObject* args) {
 	PyObject* l = make_PySet(od[1], false);
 	PyObject* r = make_PySet(od[2], false);
 	PyObject* o = make_PySet(od[0], false);
+	delete od;
 	return Py_BuildValue("OOO", o, l, r);
 }
 
