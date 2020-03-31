@@ -1,5 +1,6 @@
 
 #include "lp_kernel.hpp"
+#include "matching.hpp"
 
 Set* lp_kernel(Graph* g) {
 
@@ -10,7 +11,7 @@ Set* lp_kernel(Graph* g) {
 
     for (auto iu = g->begin(); iu != g->end(); ++iu) {
         int u = *iu;
-         
+
         left->insert(u);
         right->insert(u + n);
 
@@ -21,7 +22,7 @@ Set* lp_kernel(Graph* g) {
     }
 
     Map<int> weights;
-    Map<int>* matching = maximum_matching(h, left, right);
+    Map<int>* matching = bipartite_matching(h, left, right);
 
     for (auto im = matching->begin(); im != matching->end(); ++im) {
         int mk = *im;
@@ -33,7 +34,7 @@ Set* lp_kernel(Graph* g) {
         weights[u] = weights.contains(u) ? weights[u] + 1 : 1;
         weights[v] = weights.contains(v) ? weights[v] + 1 : 1;
     }
-    
+
     Set* kernel = new Set();
 
     for (auto iw = weights.begin(); iw != weights.end(); ++iw) {

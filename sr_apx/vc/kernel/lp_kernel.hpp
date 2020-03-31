@@ -7,6 +7,4 @@
 
 Set* lp_kernel(Graph*);
 
-extern Map<int>* maximum_matching(Graph*, Set*, Set*);
-
 #endif
