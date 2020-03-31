@@ -1,6 +1,6 @@
 
 #include "lp_kernel.hpp"
-#include "matching.hpp"
+#include "vc_exact.hpp"
 
 Set** lp_kernel(Graph* g) {
 
@@ -17,38 +17,22 @@ Set** lp_kernel(Graph* g) {
 
         for (auto inbr = g->neighbors(u)->begin(); inbr != g->neighbors(u)->end(); ++inbr) {
             int nbr = *inbr;
-            h->add_edge(u, nbr + n);
+            h->add_edge(u, nbr + 2 * n);
         }
     }
 
-    Map<int> weights;
-    Map<int>* matching = bipartite_matching(h, left, right);
-
-    for (auto im = matching->begin(); im != matching->end(); ++im) {
-        int mk = *im;
-        int mv = matching->at(mk);
-
-        int u = mk >= n ? mk - n : mk;
-        int v = mv >= n ? mv - n : mv;
-
-        weights[u] = weights.contains(u) ? weights[u] + 1 : 1;
-        weights[v] = weights.contains(v) ? weights[v] + 1 : 1;
-    }
+    Set* cover = bip_exact(h);
 
     Set* in = new Set();
     Set* out = new Set();
 
-    for (auto iw = weights.begin(); iw != weights.end(); ++iw) {
-        int w = *iw;
-
-        // (u, v) in matching implies (v, u) in matching,
-        //  so a given matched pair will be counted twice;
-        // weights[w] \in {0, 2, 4}
-        if (weights[w] == 0) {
-            out->insert(w);
+    for (auto iu = g->begin(); iu != g->end(); ++iu) {
+        int u = *iu;
+        if (cover->contains(u) && cover->contains(u + 2 * n)) {
+            in->insert(u);
         }
-        else if (weights[w] == 4) {
-            in->insert(w);
+        else if (!cover->contains(u) && !cover->contains(u + 2 * n)) {
+            out->insert(u);
         }
     }
 
