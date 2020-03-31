@@ -70,10 +70,10 @@ def main():
         completed = 0
         for filename in graph_list:
             completed += 1
-            progress = int(completed / len(graph_list) * 50)
-            progress_str = "#" * progress
-            progress_str += "-" * (50 - progress)
-            print("[" + progress_str + "]", end="\r")
+            progress = int(completed / len(graph_list) * 100)
+            progress_str = "#" * int(progress/2)
+            progress_str += "-" * (50 - int(progress/2))
+            print("[" + progress_str + "] {}%".format(progress), end="\r")
 
             res = {}
 
