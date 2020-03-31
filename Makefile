@@ -2,7 +2,7 @@
 CC=g++
 CCFLAGS=-O3 -std=c++11 -fPIC
 
-INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/bipartite/
+INCLUDES=-Isr_apx/graph/ -Isr_apx/util/ -Isr_apx/setmap/ -Isr_apx/vc/apx/ -Isr_apx/vc/exact/ -Isr_apx/vc/lift/ -Isr_apx/bipartite/ -Isr_apx/misc/
 
 PYINCLUDE=$(shell python3-config --includes)
 PYFLAGS=$(shell python3-config --ldflags) -L. -L./sr_apx/setmap -L./sr_apx/graph -Wl,-rpath,. -Wl,-rpath,./sr_apx/setmap -Wl,-rpath,./sr_apx/graph
@@ -12,6 +12,10 @@ PYFLAGS=$(shell python3-config --ldflags) -L. -L./sr_apx/setmap -L./sr_apx/graph
 build/util.o: sr_apx/util/util.cpp sr_apx/util/util.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/util.o sr_apx/util/util.cpp
+
+build/matching.o: sr_apx/misc/matching.cpp sr_apx/misc/matching.hpp
+	mkdir -p build
+	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/matching.o sr_apx/misc/matching.cpp
 
 build/graph.o: sr_apx/graph/graph.cpp sr_apx/graph/graph.hpp
 	mkdir -p build
@@ -33,8 +37,8 @@ build/bipartite.o: sr_apx/bipartite/bipartite.cpp sr_apx/bipartite/bipartite.hpp
 	mkdir -p build
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/bipartite.o sr_apx/bipartite/bipartite.cpp
 
-lib_sr_apx.so: build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/bipartite.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
-	$(CC) -shared -o lib_sr_apx.so build/util.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/bipartite.o
+lib_sr_apx.so: build/util.o build/matching.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/bipartite.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
+	$(CC) -shared -o lib_sr_apx.so build/util.o build/matching.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/bipartite.o
 
 build/main.o: main.cpp
 	mkdir -p build
