@@ -8,7 +8,7 @@ from time import time
 
 from sr_apx.graph import Graph, read_edge_list, read_sparse6
 from sr_apx.setmap import Set
-from sr_apx.octset import find_octset
+from sr_apx.bipartite import vertex_delete, verify_bipartite
 
 from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx
 from sr_apx.vc.exact import bip_exact
@@ -31,7 +31,8 @@ def main():
     # computes another solution using structural rounding with greedy lifting
     # several other lifts are available, see the import statements
     start = time()
-    left, right, octset = find_octset(graph)
+    octset = vertex_delete(graph)
+    _, left, right = verify_bipartite(graph, octset)
 
     bippart = Set()
     for v in left:

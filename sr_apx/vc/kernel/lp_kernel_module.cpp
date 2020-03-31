@@ -30,5 +30,5 @@ static struct PyModuleDef lp_kernel_module = {
 };
 
 PyMODINIT_FUNC PyInit_lib_lp_kernel() {
-    retun PyModule_Create(&lp_kernel_module);
+    return PyModule_Create(&lp_kernel_module);
 }
