@@ -5,6 +5,6 @@
 #include "setmap.hpp"
 #include "graph.hpp"
 
-Set* lp_kernel(Graph*);
+Set** lp_kernel(Graph*);
 
 #endif

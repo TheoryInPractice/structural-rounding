@@ -13,7 +13,12 @@ static PyObject* vc_kernel_lpkernel(PyObject* self, PyObject* args) {
     }
 
     Graph* graph = ((PyGraph*) g)->g;
-    return make_PySet(lp_kernel(graph), false);
+
+    Set** kernel = lp_kernel(graph);
+    PyObject* in = make_PySet(kernel[0], false);
+    PyObject* out = make_PySet(kernel[1], false);
+    // delete kernel
+    return Py_BuildValue("OO", in, out);
 }
 
 static PyMethodDef lp_kernel_methods[] = {

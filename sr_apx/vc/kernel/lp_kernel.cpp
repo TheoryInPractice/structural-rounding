@@ -2,7 +2,7 @@
 #include "lp_kernel.hpp"
 #include "matching.hpp"
 
-Set* lp_kernel(Graph* g) {
+Set** lp_kernel(Graph* g) {
 
     int n = g->size();
     Graph* h = new Graph();
@@ -35,7 +35,8 @@ Set* lp_kernel(Graph* g) {
         weights[v] = weights.contains(v) ? weights[v] + 1 : 1;
     }
 
-    Set* kernel = new Set();
+    Set* in = new Set();
+    Set* out = new Set();
 
     for (auto iw = weights.begin(); iw != weights.end(); ++iw) {
         int w = *iw;
@@ -43,11 +44,17 @@ Set* lp_kernel(Graph* g) {
         // (u, v) in matching implies (v, u) in matching,
         //  so a given matched pair will be counted twice;
         // weights[w] \in {0, 2, 4}
-        if (weights[w] == 2) {
-            kernel->insert(w);
+        if (weights[w] == 0) {
+            out->insert(w);
+        }
+        else if (weights[w] == 4) {
+            in->insert(w);
         }
     }
 
     // delete h, left, right, matching?
-    return kernel;
+    Set** ret = new Set*[2];
+    ret[0] = in;
+    ret[1] = out;
+    return ret;
 }
