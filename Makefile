@@ -42,7 +42,7 @@ build/bipartite.o: sr_apx/bipartite/bipartite.cpp sr_apx/bipartite/bipartite.hpp
 	$(CC) $(CCFLAGS) -c $(INCLUDES) -o build/bipartite.o sr_apx/bipartite/bipartite.cpp
 
 lib_sr_apx.so: build/util.o build/matching.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/vc_kernel.o build/bipartite.o sr_apx/setmap/setmap.hpp sr_apx/setmap/setmap.tpp
-	$(CC) -shared -o lib_sr_apx.so build/util.o build/matching.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/bipartite.o
+	$(CC) -shared -o lib_sr_apx.so build/util.o build/matching.o build/graph.o build/vc_apx.o build/vc_exact.o build/vc_lift.o build/vc_kernel.o build/bipartite.o
 
 build/main.o: main.cpp
 	mkdir -p build
