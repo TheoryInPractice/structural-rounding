@@ -153,6 +153,42 @@ int main(int argc, char* argv[]) {
 		printf("\tmin size: %d\n", minsol);
 		printf("\tmax size: %d\n", maxsol);
 
+		t = run_lift(apx_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("apx lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
+		t = run_lift(oct_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("oct lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
+		t = run_lift(bip_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("bip lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
+		t = run_lift(recursive_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("recursive lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
+		t = run_lift(recursive_oct_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("recursive oct lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
+		t = run_lift(recursive_bip_lift, graph, n, oct, partial, minsol, maxsol);
+		printf("recursive bip lift\n");
+		printf("\tavg time: %.4f\n", t/1000000);
+		printf("\tmin size: %d\n", minsol);
+		printf("\tmax size: %d\n", maxsol);
+
 		graph = NULL;
 
 		printf("\n");
