@@ -11,7 +11,7 @@ from sr_apx.bipartite import prescribed_octset, vertex_delete, verify_bipartite
 
 from sr_apx.vc.apx import dfs_apx, std_apx, heuristic_apx
 from sr_apx.vc.exact import bip_exact
-from sr_apx.vc.lift import naive_lift, greedy_lift
+from sr_apx.vc.lift import naive_lift, greedy_lift, apx_lift, oct_lift, bip_lift, recursive_lift, recursive_oct_lift, recursive_bip_lift
 
 def run_apx(apx, graph, n):
     times = []
@@ -63,7 +63,7 @@ def main():
         graph_list.append(filename)
 
     with open("results/results.csv", "w") as f:
-        header = ["name","n","m","dfs time","dfs size","heuristic time","heuristic size","std time","std size","stdrev time","stdrev size","oct size","partial","bip time","naive time","naive size","apx time","apx size","greedy time","greedy size","octfirst time","octfirst size","octfirst break","bipfirst time","bipfirst size","bipfirst break","rec time","rec size","rec break","recoct time","recoct size","recoct break","recbip time","recbip size","recbip break"]
+        header = ["name","n","m","dfs time","dfs size","heuristic time","heuristic size","std time","std size","stdrev time","stdrev size","oct size","partial","bip time","naive time","naive size","apx time","apx size","greedy time","greedy size","octfirst time","octfirst size","bipfirst time","bipfirst size","rec time","rec size","recoct time","recoct size","recbip time","recbip size"]
         results = DictWriter(f, header)
         results.writeheader()
 
@@ -122,6 +122,30 @@ def main():
             t, minsol, maxsol = run_lift(greedy_lift, graph, n, octset, partial)
             res["greedy time"] = t
             res["greedy size"] = minsol
+
+            t, minsol, maxsol = run_lift(apx_lift, graph, n, octset, partial)
+            res["apx time"] = t
+            res["apx size"] = minsol
+
+            t, minsol, maxsol = run_lift(oct_lift, graph, n, octset, partial)
+            res["octfirst time"] = t
+            res["octfirst size"] = minsol
+
+            t, minsol, maxsol = run_lift(bip_lift, graph, n, octset, partial)
+            res["bipfirst time"] = t
+            res["bipfirst size"] = minsol
+
+            t, minsol, maxsol = run_lift(recursive_lift, graph, n, octset, partial)
+            res["rec time"] = t
+            res["rec size"] = minsol
+
+            t, minsol, maxsol = run_lift(recursive_oct_lift, graph, n, octset, partial)
+            res["recoct time"] = t
+            res["recoct size"] = minsol
+
+            t, minsol, maxsol = run_lift(recursive_bip_lift, graph, n, octset, partial)
+            res["recbip time"] = t
+            res["recbip size"] = minsol
 
             results.writerow(res)
             del graph
