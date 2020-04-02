@@ -59,12 +59,14 @@ Set* apx_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Graph* h = graph->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
 
 	Set* cover = std_apx(h);
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
 		cover->insert(*it);
 	}
 
+	delete h;
 	return cover;
 }
 
@@ -74,6 +76,8 @@ Set* oct_lift(Graph* graph, Set* octset, Set* partial) {
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete h;
 
 	Set* subgraph_vertices = new Set();
 	for (auto it = graph->begin(); it != graph->end(); ++it) {
@@ -87,6 +91,10 @@ Set* oct_lift(Graph* graph, Set* octset, Set* partial) {
 	for (Set::Iterator it = bipcover->begin(); it != bipcover->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete h;
+	delete subgraph_vertices;
+	delete bipcover;
 
 	return cover;
 }
@@ -109,6 +117,7 @@ Set* bip_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Set* cover = bip_exact(h);
+	delete h;
 
 	Set* subgraph_vertices = new Set();
 	for (Set::Iterator it = octset->begin(); it != octset->end(); ++it) {
@@ -118,7 +127,9 @@ Set* bip_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	h = graph->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
 	Set* octcover = std_apx(h);
+	delete h;
 
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
 		cover->insert(*it);
@@ -127,6 +138,8 @@ Set* bip_lift(Graph* graph, Set* octset, Set* partial) {
 	for (Set::Iterator it = octcover->begin(); it != octcover->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete octcover;
 
 	return cover;
 }
@@ -140,6 +153,7 @@ Set* recursive_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Graph* h = graph->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
 
 	Set* octset2 = vertex_delete(h);
 	subgraph_vertices = new Set();
@@ -150,6 +164,8 @@ Set* recursive_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Graph* g = h->subgraph(subgraph_vertices);
+	delete h;
+	delete subgraph_vertices;
 	Set* cover = bip_exact(g);
 
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
@@ -159,6 +175,9 @@ Set* recursive_lift(Graph* graph, Set* octset, Set* partial) {
 	for (Set::Iterator it = octset2->begin(); it != octset2->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete octset2;
+	delete g;
 
 	return cover;
 }
@@ -174,11 +193,16 @@ Set* recursive_oct_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Graph* g = h->subgraph(subgraph_vertices);
+	delete h;
+	delete subgraph_vertices;
 	Set* cover = bip_exact(g);
+	delete g;
 
 	for (Set::Iterator it = octset2->begin(); it != octset2->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete octset2;
 
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
 		cover->insert(*it);
@@ -192,11 +216,15 @@ Set* recursive_oct_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	g = graph->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
 	Set* bipcover = bip_exact(g);
+	delete g;
 
 	for (Set::Iterator it = bipcover->begin(); it != bipcover->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete bipcover;
 
 	return cover;
 }
@@ -219,6 +247,7 @@ Set* recursive_bip_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Set* cover = bip_exact(h);
+	delete h;
 
 	Set* subgraph_vertices = new Set();
 	for (Set::Iterator it = octset->begin(); it != octset->end(); ++it) {
@@ -228,6 +257,7 @@ Set* recursive_bip_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	h = graph->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
 
 	Set* octset2 = vertex_delete(h);
 	subgraph_vertices = new Set();
@@ -238,15 +268,22 @@ Set* recursive_bip_lift(Graph* graph, Set* octset, Set* partial) {
 	}
 
 	Graph* g = h->subgraph(subgraph_vertices);
+	delete subgraph_vertices;
+	delete h;
 	Set* octcover = bip_exact(g);
+	delete g;
 
 	for (Set::Iterator it = octcover->begin(); it != octcover->end(); ++it) {
 		cover->insert(*it);
 	}
 
+	delete octcover;
+
 	for (Set::Iterator it = octset2->begin(); it != octset2->end(); ++it) {
 		cover->insert(*it);
 	}
+
+	delete octset2;
 
 	for (Set::Iterator it = partial->begin(); it != partial->end(); ++it) {
 		cover->insert(*it);
