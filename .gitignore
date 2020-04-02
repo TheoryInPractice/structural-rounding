@@ -3,3 +3,8 @@ __pycache__/
 results/
 graphs/
 *.out
+
+build/
+*.so
+
+main

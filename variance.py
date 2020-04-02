@@ -3,12 +3,14 @@ import sys, os, random
 from time import time
 from csv import DictWriter
 
-from src.graph import read_sparse6
-from src.octset import find_octset, verify_bip
+from sr_apx.setmap import Set
+from sr_apx.graph import Graph, read_sparse6
 
-from src.vc_exact import bip_exact
-from src.vc_apx import dfs_apx, std_apx
-from src.vc_lift import naive_lift, apx_lift, greedy_lift, oct_first_lift, bip_first_lift, recursive_lift, recursive_oct_lift, recursive_bip_lift
+from sr_apx.bipartite import vertex_delete, verify_bipartite
+
+from sr_apx.vc.exact import bip_exact
+from sr_apx.vc.apx import dfs_apx, std_apx
+from sr_apx.vc.lift import naive_lift, greedy_lift
 
 def runtime(alg, G, n):
     times = []
@@ -66,18 +68,17 @@ if __name__ == "__main__":
             res["name"] = graphname
 
             graph = read_sparse6("{}{}".format(filepath, filename))
-            print("n: {}".format(len(graph.neighbors)))
-            print("m: {}".format(graph.edges))
-            res["n"] = len(graph.neighbors)
+            print("n: {}".format(len(graph)))
+            res["n"] = len(graph)
 
-            mean, var = runtime(find_octset, graph, n)
+            mean, var = runtime(vertex_delete, graph, n)
             print("oct time")
             print("\tmean: {}".format(mean))
             print("\tvar: {}".format(var))
             res["octtime mean"] = mean
             res["octtime var"] = var
 
-            o, l, r = find_octset(graph)
+            o = vertex_delete(graph)
             res["octsize mean"] = len(o)
             print("oct size")
             print("\tmean: {}".format(len(o)))
@@ -110,20 +111,27 @@ if __name__ == "__main__":
             res["stdsize mean"] = mean
             res["stdsize var"] = var
 
-            mean, var = runtime(verify_bip, graph, n)
+            alg = lambda x: verify_bipartite(x, Set())
+            mean, var = runtime(alg, graph, n)
             print("bfs time")
             print("\tmean: {}".format(mean))
             print("\tvar: {}".format(var))
             res["bfstime mean"] = mean
             res["bfstime var"] = var
 
-            o, l, r = verify_bip(graph, set())
+            o, l, r = verify_bipartite(graph, Set())
             res["bfssize mean"] = len(o)
             print("bfs size")
             print("\tmean: {}".format(len(o)))
 
-            octset, left, right = find_octset(graph)
-            g = graph.vertex_subgraph(graph.neighbors.keys() - octset)
+            octset = vertex_delete(graph)
+            _, left, right = verify_bipartite(graph, octset)
+            bippart = Set()
+            for v in left:
+                bippart.add(v)
+            for v in right:
+                bippart.add(v)
+            g = graph.subgraph(bippart)
 
             mean, var = runtime(bip_exact, g, n)
             print("bip time")
@@ -134,7 +142,7 @@ if __name__ == "__main__":
 
             partial = bip_exact(g)
 
-            alg = lambda x: naive_lift(x, octset, partial)[0]
+            alg = lambda x: naive_lift(x, octset, partial)
             mean, var = runtime(alg, graph, n)
             print("naive time")
             print("\tmean: {}".format(mean))
@@ -142,61 +150,13 @@ if __name__ == "__main__":
             res["naivetime mean"] = mean
             res["naivetime var"] = var
 
-            alg = lambda x: apx_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("apx time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["apxtime mean"] = mean
-            res["apxtime var"] = var
-
-            alg = lambda x: greedy_lift(x, octset, partial)[0]
+            alg = lambda x: greedy_lift(x, octset, partial)
             mean, var = runtime(alg, graph, n)
             print("greedy time")
             print("\tmean: {}".format(mean))
             print("\tvar: {}".format(var))
             res["greedytime mean"] = mean
             res["greedytime var"] = var
-
-            alg = lambda x: oct_first_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("octfirst time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["octfirsttime mean"] = mean
-            res["octfirsttime var"] = var
-
-            alg = lambda x: bip_first_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("bipfirst time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["bipfirsttime mean"] = mean
-            res["bipfirsttime var"] = var
-
-            alg = lambda x: recursive_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("rec time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["rectime mean"] = mean
-            res["rectime var"] = var
-
-            alg = lambda x: recursive_oct_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("recoct time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["recocttime mean"] = mean
-            res["recocttime var"] = var
-
-            alg = lambda x: recursive_bip_lift(x, octset, partial)[0]
-            mean, var = runtime(alg, graph, n)
-            print("recbip time")
-            print("\tmean: {}".format(mean))
-            print("\tvar: {}".format(var))
-            res["recbiptime mean"] = mean
-            res["recbiptime var"] = var
 
             results.writerow(res)
             print()
