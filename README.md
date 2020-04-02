@@ -23,11 +23,12 @@ You can also create different sizes of graphs using ```./create_graphs.sh custom
 - **Python** Once compiled, run ```python main.py <graphs-directory/>```
 - **C++** Once compiled, run ```./main <graphs-directory/>``` or ```./main <graph.s6>```
 
-~~Once you have created synthetic graphs, you can reproduce our experimental results by running ```make small_data```.
-Use ```make medium_data``` or ```make large_data``` if appropriate.
-You can run our experiments on different sizes of graphs using ```python main.py <directory>```.
-Note that the ```make``` commands additionally disable Python's random hashing feature so that results are consistent between runs.~~
+Once you have created synthetic graphs, you can reproduce our experimental results by running ```main.py``` on ```graphs/small/```, ```graphs/medium/```, and ```graphs/large/```.
 
-The variance experiments can also be reproduced using ```make test_data```.
-Do the large amount of repetition, it is not recommended to use graphs with more than 100 thousand edges in the variance tests.
-To run the variance experiments on graphs of a different size, use ```python variance.py <directory>```.
+## Citation and License
+**Important**: Structural-Rounding is *research software*, so you should cite us when you use it in scientific publications!
+Please see the [CITATION](./CITATION) file for citation information.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3401541.svg)](https://doi.org/10.5281/zenodo.3401541)
+
+Structural-Rounding is released under the BSD license; see the [LICENSE](./LICENSE) file.
+Distribution, modification and redistribution, and incorporation into other software is allowed.
