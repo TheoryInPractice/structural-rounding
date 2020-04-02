@@ -10,6 +10,7 @@ public:
 
 	Graph() {};
 	Graph(int);
+	~Graph();
 	void add_edge(int, int);
 	int size();
 	int degree(int);

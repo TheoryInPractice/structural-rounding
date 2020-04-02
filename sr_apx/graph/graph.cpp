@@ -11,6 +11,10 @@ Graph::Graph(int n) {
 	adjlist.reserve(n);
 }
 
+Graph::~Graph() {
+	adjlist.clear();
+}
+
 bool Graph::adjacent(int u, int v) {
     return adjlist[u].contains(v);
 }

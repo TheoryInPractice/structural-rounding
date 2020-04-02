@@ -32,11 +32,14 @@ double run_apx(Set* (*apx)(Graph*), Graph* graph, int n, int &minsol, int &maxso
 		clock_t end = clock();
 		times[i] = (double) (end - start);
 		sols[i] = cover->size();
+		delete cover;
 	}
 
 	double avgtime = sum(times, n) / n;
 	minsol = min(sols, n);
 	maxsol = max(sols, n);
+	delete[] times;
+	delete[] sols;
 	return avgtime;
 }
 
@@ -50,11 +53,14 @@ double run_lift(Set* (*lift)(Graph*, Set*, Set*), Graph* graph, int n, Set* octs
 		clock_t end = clock();
 		times[i] = (double) end - start;
 		sols[i] = cover->size();
+		delete cover;
 	}
 
 	double avgtime = sum(times, n) / n;
 	minsol = min(sols, n);
 	maxsol = max(sols, n);
+	delete[] times;
+	delete[] sols;
 	return avgtime;
 }
 
@@ -136,6 +142,9 @@ int main(int argc, char* argv[]) {
 		Set* partial = bip_exact(graph->subgraph(bippart));
 		end = clock();
 
+		delete bippart;
+		delete[] od;
+
 		printf("bip solve\n");
 		printf("\tavg time: %.4f\n", (double)(end-start)/1000000);
 
@@ -189,6 +198,11 @@ int main(int argc, char* argv[]) {
 		printf("\tmin size: %d\n", minsol);
 		printf("\tmax size: %d\n", maxsol);
 
+
+		delete oct;
+		delete partial;
+		printf("start\n");
+		delete graph;
 		graph = NULL;
 
 		printf("\n");
