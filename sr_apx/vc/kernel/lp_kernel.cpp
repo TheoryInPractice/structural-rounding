@@ -36,7 +36,11 @@ Set** lp_kernel(Graph* g) {
         }
     }
 
-    // delete h, left, right, matching?
+    delete h;
+    delete left;
+    delete right;
+    delete cover;
+
     Set** ret = new Set*[2];
     ret[0] = in;
     ret[1] = out;
