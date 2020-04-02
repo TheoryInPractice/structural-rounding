@@ -18,7 +18,7 @@ Set* bip_exact(Graph* graph) {
 
 	Set* left = od[1];
 	Set* right = od[2];
-	// delete od;
+	delete[] od;
 
 	Map<int>* match = bipartite_matching(graph, left, right);
 
@@ -60,6 +60,8 @@ Set* bip_exact(Graph* graph) {
 			}
 		}
 	}
+
+	delete match;
 
 	return cover;
 }
