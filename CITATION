@@ -1,0 +1,75 @@
+
+*********
+Citations
+*********
+
+Software Citation
+=================
+
+If you use the latest version of the Structural-Rounding software, you must cite:
+
+	B. Lavallee, B.D. Sullivan, and A. van der Poel. (2019).
+	Structural-Rounding: Version 1.0. Zenodo. 10.5281/zenodo.3401541
+
+..code-block::tex
+
+	@misc{Structural-Rounding_v1.0,
+		title={Structural-Rounding: Version 1.0},
+		author={Brian Lavallee and
+				Blair D. Sullivan and
+				Andrew van der Poel},
+		month={sep},
+		year={2019},
+		doi={10.5281/zenodo.3401541},
+		url={https://doi.org/10.5281/zenodo.3401541}
+	}
+
+If you use any of our published algorithms, you should *also*
+cite the relevant paper(s) as directed below.
+
+=============================================================
+
+The methods in sr_apx:vc:lift (which are used in the main pipeline :program: `main.py` and `main.cpp`) implement the structural rounding framework described in:
+
+	E.D. Demaine, T.D. Goodrich, K. Kloster, B. Lavallee, Q.C. Liu, B.D. Sullivan, A.Vakilian, and A. van der Poel.
+	Structural Rounding: Approximation Algorithms for Graphs Near an Algorithmically Tractable Class.
+	27th Annual European Symposium on Algorithms (ESA 2019).
+	http://drops.dagstuhl.de/opus/volltexte/2019/11158
+
+
+	B. Lavallee, H. Russell, B.D. Sullivan, and A. van der Poel.
+	Approximating Vertex Cover using Structural Rounding.
+	2020 Proceedings of the Twenty-Second Workshop on Algorithm Engineering and Experiments (ALENEX).
+	https://epubs.siam.org/doi/abs/10.1137/1.9781611976007.6
+
+..code-block::tex
+
+	@InProceedings{demaine2019structural,
+		title={Structural Rounding: Approximation Algorithms for Graphs Near an Algorithmically Tractable Class},
+		author={Erik D. Demaine and
+				Timothy D. Goodrich and
+				Kyle Kloster and
+				Brian Lavallee and
+				Quanquan C. Liu and
+				Blair D. Sullivan and
+				Ali Vakilian and
+				Andrew van der Poel},
+		booktitle={27th Annual European Symposium on Algorithms (ESA 2019)},
+		pages={37:1--37:15},
+		year={2019},
+		organization={Schloss Dagstuhl--Leibniz-Zentrum fuer Informatik},
+		URL={http://drops.dagstuhl.de/opus/volltexte/2019/11158}
+	}
+
+	@InProceedings{lavallee2020approximating,
+		title={Approximating Vertex Cover using Structural Rounding},
+		author={Brian Lavallee and
+				Hayley Russell and
+				Blair D. Sullivan and
+				Andrew van der Poel},
+		booktitle={2020 Proceedings of the Twenty-Second Workshop on Algorithm Engineering and Experiments (ALENEX)},
+		pages={70--80},
+		year={2020},
+		organization={SIAM},
+		URL={https://epubs.siam.org/doi/abs/10.1137/1.9781611976007.6}
+	}

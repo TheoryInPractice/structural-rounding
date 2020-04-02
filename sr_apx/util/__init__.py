@@ -1,2 +1,2 @@
 
-from .util import log2, pow
+from .lib_util import log2, pow

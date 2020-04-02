@@ -10,6 +10,7 @@ public:
 
 	Graph() {};
 	Graph(int);
+	~Graph();
 	void add_edge(int, int);
 	int size();
 	int degree(int);
@@ -21,5 +22,8 @@ public:
 
 	Graph* subgraph(Set*);
 };
+
+Graph* read_sparse6(const char*);
+Graph* read_edge_list(const char*);
 
 #endif

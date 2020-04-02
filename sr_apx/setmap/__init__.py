@@ -1,2 +1,2 @@
 
-from .setmap import Set
+from .lib_setmap import Set

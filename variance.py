@@ -4,10 +4,9 @@ from time import time
 from csv import DictWriter
 
 from sr_apx.setmap import Set
-from sr_apx.graph import Graph
+from sr_apx.graph import Graph, read_sparse6
 
-from sr_apx.graphio import read_sparse6
-from sr_apx.octset import find_octset, verify_bip
+from sr_apx.bipartite import vertex_delete, verify_bipartite
 
 from sr_apx.vc.exact import bip_exact
 from sr_apx.vc.apx import dfs_apx, std_apx
@@ -72,14 +71,14 @@ if __name__ == "__main__":
             print("n: {}".format(len(graph)))
             res["n"] = len(graph)
 
-            mean, var = runtime(find_octset, graph, n)
+            mean, var = runtime(vertex_delete, graph, n)
             print("oct time")
             print("\tmean: {}".format(mean))
             print("\tvar: {}".format(var))
             res["octtime mean"] = mean
             res["octtime var"] = var
 
-            o, l, r = find_octset(graph)
+            o = vertex_delete(graph)
             res["octsize mean"] = len(o)
             print("oct size")
             print("\tmean: {}".format(len(o)))
@@ -112,7 +111,7 @@ if __name__ == "__main__":
             res["stdsize mean"] = mean
             res["stdsize var"] = var
 
-            alg = lambda x: verify_bip(x, Set())
+            alg = lambda x: verify_bipartite(x, Set())
             mean, var = runtime(alg, graph, n)
             print("bfs time")
             print("\tmean: {}".format(mean))
@@ -120,12 +119,13 @@ if __name__ == "__main__":
             res["bfstime mean"] = mean
             res["bfstime var"] = var
 
-            o, l, r = verify_bip(graph, Set())
+            o, l, r = verify_bipartite(graph, Set())
             res["bfssize mean"] = len(o)
             print("bfs size")
             print("\tmean: {}".format(len(o)))
 
-            left, right, octset = find_octset(graph)
+            octset = vertex_delete(graph)
+            _, left, right = verify_bipartite(graph, octset)
             bippart = Set()
             for v in left:
                 bippart.add(v)

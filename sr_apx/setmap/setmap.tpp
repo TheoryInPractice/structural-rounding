@@ -44,6 +44,8 @@ void Map<T>::rehash(int ls) {
 	int oldsize = logsize;
 
 	initialize(ls > DEFAULT_SIZE ? ls : DEFAULT_SIZE);
+	if (oldsize == -1)
+		return;
 
 	for (int i = 0; i < 1 << oldsize; i++) {
 		int x = oldarray[i].key;
