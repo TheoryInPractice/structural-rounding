@@ -9,7 +9,7 @@ Software Citation
 If you use the latest version of the Structural-Rounding software, you must cite:
 
 	M. Hooper, B. Lavallee, C. Perschon. B.D. Sullivan, and A. van der Poel. (2020).
-	Structural-Rounding: Version 2.0. Zenodo.
+	Structural-Rounding: Version 2.0. Zenodo. 10.5281/zenodo.3742343
 
 ..code-block::tex
 
@@ -22,8 +22,8 @@ If you use the latest version of the Structural-Rounding software, you must cite
 				Andrew van der Poel},
 		month={apr},
 		year={2020},
-		doi={},
-		url={}
+		doi={10.5281/zenodo.3742343},
+		url={https://doi.org/10.5281/zenodo.3742343}
 	}
 
 
