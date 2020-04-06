@@ -17,7 +17,7 @@ static PyObject* vc_kernel_lpkernel(PyObject* self, PyObject* args) {
     Set** kernel = lp_kernel(graph);
     PyObject* in = make_PySet(kernel[0], false);
     PyObject* out = make_PySet(kernel[1], false);
-    delete[] kernel
+    delete[] kernel;
     return Py_BuildValue("OO", in, out);
 }
 
