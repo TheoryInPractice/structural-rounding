@@ -1,4 +1,5 @@
 
+
 import cProfile
 
 import sys, os, random
@@ -45,6 +46,12 @@ def run_lift(lift, graph, n, octset, partial):
     maxsol = max(sols)
     return avgtime, minsol, maxsol
 
+def update_progress(completed, total):
+    progress = int(completed / total * 100)
+    progress_str = "#" * int(progress/2)
+    progress_str += "-" * (50 - int(progress/2))
+    print("[" + progress_str + "] {}%".format(progress), end="\r")
+
 def main():
     filepath = sys.argv[1]
     if (filepath[len(filepath)-1] != '/'):
@@ -54,6 +61,8 @@ def main():
     results_dir = os.path.join(os.getcwd(),"results")
     if not os.path.exists(results_dir):
         os.mkdir(results_dir)
+
+    print("writing results to ./results/results.csv")
 
     graph_list = []
     for filename in os.listdir(filepath):
@@ -68,13 +77,8 @@ def main():
         results.writeheader()
 
         completed = 0
+        total = len(graph_list) * 13
         for filename in graph_list:
-            completed += 1
-            progress = int(completed / len(graph_list) * 100)
-            progress_str = "#" * int(progress/2)
-            progress_str += "-" * (50 - int(progress/2))
-            print("[" + progress_str + "] {}%".format(progress), end="\r")
-
             res = {}
 
             graphname = filename.split(".s6")[0]
@@ -82,18 +86,26 @@ def main():
 
             graph = read_sparse6("{}{}".format(filepath, filename))
             res["n"] = len(graph)
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_apx(heuristic_apx, graph, n)
             res["heuristic time"] = t
             res["heuristic size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_apx(dfs_apx, graph, n)
             res["dfs time"] = t
             res["dfs size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_apx(std_apx, graph, n)
             res["std time"] = t
             res["std size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             # left, right, octset = prescibed_octset(graph, "{}{}.oct".format(filepath, graphname))
 
@@ -114,38 +126,56 @@ def main():
             res["oct size"] = len(octset)
             res["partial"] = len(partial)
             res["bip time"] = round(end - start, 4)
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(naive_lift, graph, n, octset, partial)
             res["naive time"] = t
             res["naive size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(greedy_lift, graph, n, octset, partial)
             res["greedy time"] = t
             res["greedy size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(apx_lift, graph, n, octset, partial)
             res["apx time"] = t
             res["apx size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(oct_lift, graph, n, octset, partial)
             res["octfirst time"] = t
             res["octfirst size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(bip_lift, graph, n, octset, partial)
             res["bipfirst time"] = t
             res["bipfirst size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(recursive_lift, graph, n, octset, partial)
             res["rec time"] = t
             res["rec size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(recursive_oct_lift, graph, n, octset, partial)
             res["recoct time"] = t
             res["recoct size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             t, minsol, maxsol = run_lift(recursive_bip_lift, graph, n, octset, partial)
             res["recbip time"] = t
             res["recbip size"] = minsol
+            completed += 1
+            update_progress(completed, total)
 
             results.writerow(res)
             del graph
