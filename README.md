@@ -1,6 +1,11 @@
 
 # Structural Rounding
-See example.py if you'd like to write code that makes use of our structural rounding algorithms.
+This repository includes methods for editing to graph classes,
+solving optimization problems with generic and class-specific algorithms,
+and "lifting" solutions from subgraphs.
+If you would like to write your own code that directly invokes these methods,
+please see example.py.
+The remainder of this README describes how to use a series of scripts provided for running the entire structural rounding pipeline as might be done in an experimental algorithms setting.
 
 
 ## Compiling
